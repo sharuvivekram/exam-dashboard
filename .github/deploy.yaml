@@ -1,0 +1,34 @@
+name: Deploy Dashboard Website
+on:
+  schedule:
+    - cron: '0 18 * * 0'  # Triggers automatically every Sunday at 6:00 PM UTC
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      # Added openpyxl tool so GitHub can open Excel files smoothly
+      - run: pip install pandas openpyxl
+      - run: python build_dashboard.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './public'
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
