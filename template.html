@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Strategy Control Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --navy: #1F497D; --light-bg: #F8FAFC; --border: #E2E8F0; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); color: #333; margin: 0; padding: 24px; }
+        .container { max-width: 1300px; margin: 0 auto; }
+        header { border-bottom: 3px solid var(--navy); padding-bottom: 12px; margin-bottom: 30px; }
+        h1 { color: var(--navy); margin: 0; font-size: 28px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 20px; background: #E2E8F0; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .tab-btn.active { background: var(--navy); color: white; }
+        .tab-content { display: none; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .tab-content.active { display: block; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background-color: var(--navy); color: white; padding: 14px 16px; font-weight: 600; font-size: 14px; }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: top; }
+        tr:nth-child(even) { background-color: #F8FAFC; }
+        .portal-link { color: #2563EB; text-decoration: none; font-weight: 600; }
+        .badge-salary { background: #ECFDF5; color: #047857; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; display: inline-block; }
+        .text-pros { color: #16A34A; margin-bottom: 4px; }
+        .text-cons { color: #DC2626; margin: 0; }
+    </style>
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Exam Preparation Operations Dashboard</h1>
+            <div style="color: #64748B; margin-top: 4px;">Last Updated Sync: {{SYNC_TIME}}</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('central')">Central Exams</button>
+            <button class="tab-btn" onclick="switchTab('state')">State Exams</button>
+            <button class="tab-btn" onclick="switchTab('banking')">Banking Milestone Stages</button>
+        </div>
+
+        <div id="central" class="tab-content active">
+            <table>
+                <thead><tr><th>Exam Name</th><th>Portal</th><th>Notification Date</th><th>Exam Date</th><th>Salary (1st Yr)</th><th>Pros & Cons</th></tr></thead>
+                <tbody>{{CENTRAL_ROWS}}</tbody>
+            </table>
+        </div>
+
+        <div id="state" class="tab-content">
+            <table>
+                <thead><tr><th>Exam Name</th><th>Portal</th><th>Notification Date</th><th>Exam Date</th><th>Salary (1st Yr)</th><th>Pros & Cons</th></tr></thead>
+                <tbody>{{STATE_ROWS}}</tbody>
+            </table>
+        </div>
+
+        <div id="banking" class="tab-content">
+            <table>
+                <thead><tr><th>Exam Stage Target</th><th>Portal</th><th>Notification Date</th><th>Exam Date</th><th>Salary (1st Yr)</th><th>Pros & Cons</th></tr></thead>
+                <tbody>{{BANKING_ROWS}}</tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
